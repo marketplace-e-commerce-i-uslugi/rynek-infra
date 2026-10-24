@@ -1,4 +1,4 @@
-# Lokalne środowisko Rynku. Na razie tylko Redis (limity zapytań w api-gateway).
+# Lokalne środowisko Rynku: Redis (limity zapytań w api-gateway) i PostgreSQL (osobna baza na serwis).
 # Uruchomienie: docker compose -f local/docker-compose.yml up -d
 name: rynek
 
@@ -12,3 +12,23 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      # Konto administratora tylko do lokalnej pracy. Serwisy łączą się własnymi kontami z postgres/init.
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres-data:
