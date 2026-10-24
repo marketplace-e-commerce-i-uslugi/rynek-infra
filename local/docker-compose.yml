@@ -1,0 +1,14 @@
+# Lokalne środowisko Rynku. Na razie tylko Redis (limity zapytań w api-gateway).
+# Uruchomienie: docker compose -f local/docker-compose.yml up -d
+name: rynek
+
+services:
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5

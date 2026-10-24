@@ -2,7 +2,11 @@
 
 Infrastruktura platformy **Rynek**.
 
-> Status: **nie rozpoczęty**.
+> Status: **w budowie**. `local/docker-compose.yml` zawiera na razie tylko Redis (limity w api-gateway).
+
+```bash
+docker compose -f local/docker-compose.yml up -d
+```
 
 ## Planowana zawartość
 
