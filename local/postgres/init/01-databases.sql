@@ -4,3 +4,6 @@
 
 CREATE USER identity WITH PASSWORD 'identity';
 CREATE DATABASE identity OWNER identity;
+
+CREATE USER channel WITH PASSWORD 'channel';
+CREATE DATABASE channel OWNER channel;

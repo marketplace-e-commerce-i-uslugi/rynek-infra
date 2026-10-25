@@ -15,6 +15,7 @@ Lokalnie jeden kontener, ale każdy serwis ma własną bazę i konto (`local/pos
 | Serwis | Baza | Użytkownik / hasło |
 |---|---|---|
 | identity-service | `identity` | `identity` / `identity` |
+| channel-service | `channel` | `channel` / `channel` |
 
 Skrypt z `postgres/init` wykonuje się tylko przy pierwszym starcie pustego wolumenu. Po dopisaniu nowej bazy wykonaj jej blok ręcznie (`docker exec -it rynek-postgres-1 psql -U postgres`) albo wyczyść dane lokalne: `docker compose -f local/docker-compose.yml down -v`.
 
