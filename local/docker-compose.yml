@@ -1,4 +1,5 @@
-# Lokalne środowisko Rynku: Redis (limity zapytań w api-gateway) i PostgreSQL (osobna baza na serwis).
+# Lokalne środowisko Rynku: Redis (limity zapytań w api-gateway), PostgreSQL (osobna baza na serwis)
+# i SeaweedFS jako magazyn S3 dla media-service.
 # Uruchomienie: docker compose -f local/docker-compose.yml up -d
 name: rynek
 
@@ -30,5 +31,17 @@ services:
       timeout: 3s
       retries: 5
 
+  # Magazyn S3-kompatybilny (media-service). Klucze i anonimowy odczyt kubełka publicznego: seaweedfs/s3.json.
+  # Kubełki i CORS zakłada media-service przy starcie.
+  seaweedfs:
+    image: chrislusf/seaweedfs:3.97
+    command: server -dir=/data -s3 -s3.config=/etc/seaweedfs/s3.json
+    ports:
+      - "8333:8333"
+    volumes:
+      - ./seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+      - seaweedfs-data:/data
+
 volumes:
   postgres-data:
+  seaweedfs-data:

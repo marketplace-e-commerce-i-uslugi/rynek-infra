@@ -7,3 +7,9 @@ CREATE DATABASE identity OWNER identity;
 
 CREATE USER channel WITH PASSWORD 'channel';
 CREATE DATABASE channel OWNER channel;
+
+CREATE USER catalog WITH PASSWORD 'catalog';
+CREATE DATABASE catalog OWNER catalog;
+
+CREATE USER media WITH PASSWORD 'media';
+CREATE DATABASE media OWNER media;
