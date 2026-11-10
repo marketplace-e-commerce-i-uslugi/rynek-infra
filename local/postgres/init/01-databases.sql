@@ -13,3 +13,9 @@ CREATE DATABASE catalog OWNER catalog;
 
 CREATE USER media WITH PASSWORD 'media';
 CREATE DATABASE media OWNER media;
+
+CREATE USER cart WITH PASSWORD 'cart';
+CREATE DATABASE cart OWNER cart;
+
+CREATE USER orders WITH PASSWORD 'orders';
+CREATE DATABASE orders OWNER orders;
