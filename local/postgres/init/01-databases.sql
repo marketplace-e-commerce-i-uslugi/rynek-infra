@@ -22,3 +22,6 @@ CREATE DATABASE orders OWNER orders;
 
 CREATE USER payments WITH PASSWORD 'payments';
 CREATE DATABASE payments OWNER payments;
+
+CREATE USER shipping WITH PASSWORD 'shipping';
+CREATE DATABASE shipping OWNER shipping;
