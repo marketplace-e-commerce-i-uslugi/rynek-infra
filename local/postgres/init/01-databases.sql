@@ -28,3 +28,6 @@ CREATE DATABASE shipping OWNER shipping;
 
 CREATE USER bookings WITH PASSWORD 'bookings';
 CREATE DATABASE bookings OWNER bookings;
+
+CREATE USER engagement WITH PASSWORD 'engagement';
+CREATE DATABASE engagement OWNER engagement;
