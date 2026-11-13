@@ -16,6 +16,9 @@ services:
 
   postgres:
     image: postgres:17-alpine
+    # Każdy serwis ma pulę połączeń (domyślnie 10) na wspólnym lokalnym Postgresie, więc domyślne 100 połączeń
+    # wystarcza tylko dla ok. 10 serwisów naraz.
+    command: ["postgres", "-c", "max_connections=300"]
     environment:
       # Konto administratora tylko do lokalnej pracy. Serwisy łączą się własnymi kontami z postgres/init.
       POSTGRES_USER: postgres

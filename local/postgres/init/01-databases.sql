@@ -34,3 +34,6 @@ CREATE DATABASE engagement OWNER engagement;
 
 CREATE USER notifications WITH PASSWORD 'notifications';
 CREATE DATABASE notifications OWNER notifications;
+
+CREATE USER chats WITH PASSWORD 'chats';
+CREATE DATABASE chats OWNER chats;
