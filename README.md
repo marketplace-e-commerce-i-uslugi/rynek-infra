@@ -2,7 +2,7 @@
 
 Infrastruktura platformy **Rynek**.
 
-> Status: **w budowie**. `local/docker-compose.yml` zawiera Redis (limity w api-gateway), PostgreSQL i SeaweedFS (magazyn S3 dla media-service).
+> Status: **w budowie**. `local/docker-compose.yml` zawiera Redis (limity w api-gateway), PostgreSQL, SeaweedFS (magazyn S3 dla media-service) i Kafka (KRaft, jeden broker; fundament pod zdarzenia, serwisy jeszcze z niej nie korzystają).
 
 ```bash
 docker compose -f local/docker-compose.yml up -d
@@ -33,10 +33,20 @@ media-service trzyma pliki w magazynie S3-kompatybilnym. Lokalnie to SeaweedFS (
 - Kubełki i reguły CORS (wysyłka z `http://localhost:4200`) zakłada media-service przy starcie.
 - Pliki: `http://localhost:8333/rynek-media-public/<klucz>`.
 
+## Kafka
+
+Jeden broker w trybie KRaft (bez ZooKeepera), obraz `apache/kafka:3.9.0`, dane w wolumenie `kafka-data`.
+
+- Z hosta (serwisy uruchamiane przez `./mvnw spring-boot:run`): `localhost:9092`.
+- Z kontenera w sieci compose: `kafka:29092`.
+- Tematy mają nazwy zdarzeń (`order.cancelled`, `payment.paid` itd.) i zakładają się automatycznie (`KAFKA_AUTO_CREATE_TOPICS_ENABLE`, tylko lokalnie).
+- Healthcheck: `kafka-broker-api-versions.sh`. Pierwszy start trwa do kilkudziesięciu sekund.
+- Podgląd tematów: `docker compose -f local/docker-compose.yml exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list`.
+- Schematy zdarzeń i plan zastąpienia wywołań `/internal`: `rynek-contracts/events` oraz `rynek-contracts/docs/migracja-z-wywolan-synchronicznych.md`.
+
 ## Planowana zawartość
 
 - `local/`: docker-compose do lokalnego uruchomienia:
-  - Kafka;
   - Redis (cache, limity w gateway);
   - Elasticsearch/OpenSearch (search-service).
 - Później: wspólne workflow CI (GitHub Actions) i konfiguracja wdrożeń.
