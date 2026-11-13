@@ -31,3 +31,6 @@ CREATE DATABASE bookings OWNER bookings;
 
 CREATE USER engagement WITH PASSWORD 'engagement';
 CREATE DATABASE engagement OWNER engagement;
+
+CREATE USER notifications WITH PASSWORD 'notifications';
+CREATE DATABASE notifications OWNER notifications;
