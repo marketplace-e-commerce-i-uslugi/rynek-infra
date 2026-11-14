@@ -43,3 +43,9 @@ CREATE DATABASE search OWNER search;
 
 CREATE USER feed WITH PASSWORD 'feed';
 CREATE DATABASE feed OWNER feed;
+
+CREATE USER tiktok WITH PASSWORD 'tiktok';
+CREATE DATABASE tiktok OWNER tiktok;
+
+CREATE USER analytics WITH PASSWORD 'analytics';
+CREATE DATABASE analytics OWNER analytics;

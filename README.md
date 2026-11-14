@@ -22,6 +22,8 @@ Lokalnie jeden kontener, ale każdy serwis ma własną bazę i konto (`local/pos
 | order-service | `orders` | `orders` / `orders` |
 | payment-service | `payments` | `payments` / `payments` |
 | feed-service | `feed` | `feed` / `feed` |
+| tiktok-integration-service | `tiktok` | `tiktok` / `tiktok` |
+| analytics-service | `analytics` | `analytics` / `analytics` |
 
 Skrypt z `postgres/init` wykonuje się tylko przy pierwszym starcie pustego wolumenu. Po dopisaniu nowej bazy wykonaj jej blok ręcznie (`docker exec -it rynek-postgres-1 psql -U postgres`) albo wyczyść dane lokalne: `docker compose -f local/docker-compose.yml down -v`.
 
