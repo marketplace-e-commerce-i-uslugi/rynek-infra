@@ -2,7 +2,7 @@
 
 Infrastruktura platformy **Rynek**.
 
-> Status: **w budowie**. `local/docker-compose.yml` zawiera Redis (limity w api-gateway), PostgreSQL, SeaweedFS (magazyn S3 dla media-service) i Kafka (KRaft, jeden broker; fundament pod zdarzenia, serwisy jeszcze z niej nie korzystają).
+> Status: **w budowie**. `local/docker-compose.yml` zawiera Redis (limity w api-gateway), PostgreSQL, SeaweedFS (magazyn S3 dla media-service) Kafka (KRaft, jeden broker; fundament pod zdarzenia, serwisy jeszcze z niej nie korzystają) i OpenSearch (indeks search-service).
 
 ```bash
 docker compose -f local/docker-compose.yml up -d
@@ -44,11 +44,14 @@ Jeden broker w trybie KRaft (bez ZooKeepera), obraz `apache/kafka:3.9.0`, dane w
 - Podgląd tematów: `docker compose -f local/docker-compose.yml exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list`.
 - Schematy zdarzeń i plan zastąpienia wywołań `/internal`: `rynek-contracts/events` oraz `rynek-contracts/docs/migracja-z-wywolan-synchronicznych.md`.
 
+## OpenSearch
+
+Jeden węzeł `opensearchproject/opensearch:2.19.1` (`localhost:9200`), bez uwierzytelniania i TLS, tylko do pracy lokalnej, pamięć JVM 512 MB, dane w wolumenie `opensearch-data`. Indeksy `offers` (alias) i `channels` zakłada i utrzymuje search-service. Zdrowie: `curl localhost:9200/_cluster/health`. Pierwszy start trwa do kilkudziesięciu sekund.
+
 ## Planowana zawartość
 
 - `local/`: docker-compose do lokalnego uruchomienia:
-  - Redis (cache, limity w gateway);
-  - Elasticsearch/OpenSearch (search-service).
+  - Redis (cache, limity w gateway).
 - Później: wspólne workflow CI (GitHub Actions) i konfiguracja wdrożeń.
 
 Sekretów (`JWT`, TikTok `client_secret`, klucze płatności) nie commitujemy. Do lokalnego uruchomienia służą pliki `.env`, które są w `.gitignore`.

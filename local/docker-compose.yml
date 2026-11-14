@@ -1,5 +1,6 @@
 # Lokalne środowisko Rynku: Redis (limity zapytań w api-gateway), PostgreSQL (osobna baza na serwis)
-# SeaweedFS jako magazyn S3 dla media-service oraz Kafka (KRaft, jeden broker) na zdarzenia.
+# SeaweedFS jako magazyn S3 dla media-service, Kafka (KRaft, jeden broker) na zdarzenia oraz OpenSearch (indeks
+# wyszukiwarki search-service).
 # Uruchomienie: docker compose -f local/docker-compose.yml up -d
 name: rynek
 
@@ -74,7 +75,33 @@ services:
       retries: 10
       start_period: 20s
 
+  # OpenSearch: jeden węzeł do pracy lokalnej, bez uwierzytelniania i TLS (tylko localhost:9200). Indeks ofert i kanałów
+  # buduje search-service. Pamięć JVM ograniczona do 512 MB, a mmap ustawia się w kontenerze (bez zmian na hoście).
+  opensearch:
+    image: opensearchproject/opensearch:2.19.1
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      bootstrap.memory_lock: "false"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
 volumes:
   postgres-data:
   seaweedfs-data:
   kafka-data:
+  opensearch-data:

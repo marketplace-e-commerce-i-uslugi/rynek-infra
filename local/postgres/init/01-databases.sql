@@ -37,3 +37,6 @@ CREATE DATABASE notifications OWNER notifications;
 
 CREATE USER chats WITH PASSWORD 'chats';
 CREATE DATABASE chats OWNER chats;
+
+CREATE USER search WITH PASSWORD 'search';
+CREATE DATABASE search OWNER search;
